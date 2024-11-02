@@ -21,8 +21,12 @@ public class TermController {
         return termService.getAllTerms();
     }
 
-    @PostMapping
-    public Term createTerm(@RequestBody Term term) {
+    @PostMapping()
+    public Term createTerm(@RequestParam("Season") String season, @RequestParam("Year") Integer year) {
+
+        Term term = new Term();
+        term.setSeason(season);
+        term.setYear(year);
         return termService.saveTerm(term);
     }
 
