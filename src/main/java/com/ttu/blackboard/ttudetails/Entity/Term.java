@@ -10,11 +10,11 @@ public class Term {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long termId;
 
-    @Column(nullable = false, unique = true)
-    private String termCode;
+    @Column(nullable = false)
+    private String season;
 
     @Column(nullable = false)
-    private String termName;
+    private Integer year;
 
     // Constructors, getters, and setters
     public Term() {}
@@ -22,9 +22,9 @@ public class Term {
     public Long getTermId() { return termId; }
     public void setTermId(Long termId) { this.termId = termId; }
 
-    public String getTermCode() { return termCode; }
-    public void setTermCode(String termCode) { this.termCode = termCode; }
+    public String getSeason() { return season; }
+    public void setSeason(String termCode) { this.season = termCode; }
 
-    public String getTermName() { return termName; }
-    public void setTermName(String termName) { this.termName = termName; }
+    public Integer getYear() { return year; }
+    public void setYear(Integer termName) { this.year = termName; }
 }
