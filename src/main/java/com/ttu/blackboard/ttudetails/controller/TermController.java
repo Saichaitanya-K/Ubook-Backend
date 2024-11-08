@@ -2,6 +2,7 @@ package com.ttu.blackboard.ttudetails.controller;
 
 import com.ttu.blackboard.ttudetails.Entity.Term;
 import com.ttu.blackboard.ttudetails.service.TermService;
+import com.ttu.blackboard.ttudetails.views.TermView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,18 +18,17 @@ public class TermController {
     private TermService termService;
 
     @GetMapping
-    public List<Term> getAllTerms() {
+    public List<TermView> getAllTerms() {
         return termService.getAllTerms();
     }
 
     @PostMapping()
-    public Term createTerm(@RequestParam("Season") String season, @RequestParam("Year") Integer year) {
+    public Term createTerm(@RequestParam("Season") String termCode, @RequestParam("Year") String termDescription) {
 
-        Term term = new Term();
-        term.setSeason(season);
-        term.setYear(year);
-        return termService.saveTerm(term);
+        TermView termView = new TermView();
+        termView.setTermCode(termCode);
+        termView.setTermDescription(termDescription);
+        return termService.saveTerm(termView);
     }
 
-    // Additional endpoints for updating, deleting, etc.
 }
