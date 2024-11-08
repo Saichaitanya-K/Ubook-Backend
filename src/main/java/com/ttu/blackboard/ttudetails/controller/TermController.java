@@ -4,7 +4,10 @@ import com.ttu.blackboard.ttudetails.Entity.Term;
 import com.ttu.blackboard.ttudetails.service.TermService;
 import com.ttu.blackboard.ttudetails.views.TermView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
@@ -23,12 +26,22 @@ public class TermController {
     }
 
     @PostMapping()
-    public Term createTerm(@RequestParam("Season") String termCode, @RequestParam("Year") String termDescription) {
+    public ResponseEntity<?> createTerm(@RequestParam("termCode") String termCode) {
+        TermView savedTerm = termService.saveTerm(termCode);
+        if (savedTerm == null)
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body("This term already exists");
+        return new ResponseEntity<>(savedTerm, HttpStatus.CREATED);
 
-        TermView termView = new TermView();
-        termView.setTermCode(termCode);
-        termView.setTermDescription(termDescription);
-        return termService.saveTerm(termView);
+    }
+
+    @DeleteMapping()
+    public ResponseEntity<?> deleteTerm(@RequestParam("termCode") String termCode) {
+        TermView deletedTerm = termService.deleteTerm(termCode);
+        if (deletedTerm == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body("This term does not exist");
+        return new ResponseEntity<>(deletedTerm, HttpStatus.NO_CONTENT);
     }
 
 }

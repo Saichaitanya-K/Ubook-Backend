@@ -20,19 +20,43 @@ public class TermService {
         var terms = termRepository.findAll();
         var termViews = new ArrayList<TermView>();
         for (var term : terms) {
-            var termView = new TermView();
-            termView.setTermCode(term.getYear() + toCode(term.getSeason()));
-            termView.setTermDescription(term.getSeason() + " " + term.getYear());
-            termViews.add(termView);
+            termViews.add(termToView(term));
         }
         return termViews;
     }
 
-    public Term saveTerm(TermView termView) {
+    public TermView saveTerm(String termCode) {
+        Term term = codeToTerm(termCode);
+        boolean existsAlready = termRepository.existsBySeasonAndYear(term.getSeason(), term.getYear());
+        if (existsAlready) {
+            return null;
+        }
+
+        return termToView(termRepository.save(codeToTerm(termCode)));
+    }
+
+    public TermView deleteTerm(String termCode) {
+         Term term = codeToTerm(termCode);
+         Term termInDB = termRepository.findBySeasonAndYear(term.getSeason(), term.getYear());
+         if (termInDB == null) {
+             return null;
+         }
+         termRepository.delete(termInDB);
+         return termToView(termInDB);
+    }
+
+    private TermView termToView(Term term) {
+        var termView = new TermView();
+        termView.setTermCode(term.getYear() + toCode(term.getSeason()));
+        termView.setTermDescription(term.getSeason() + " " + term.getYear());
+        return termView;
+    }
+
+    private Term codeToTerm(String termCode) {
         Term term = new Term();
-        term.setYear(Integer.parseInt(termView.getTermCode().substring(0, 4)));
-        term.setSeason(toSeason(termView.getTermCode().substring(4, 6)));
-        return termRepository.save(term);
+        term.setYear(Integer.parseInt(termCode.substring(0, 4)));
+        term.setSeason(toSeason(termCode.substring(4, 6)));
+        return term;
     }
 
     private String toCode(String season) {
