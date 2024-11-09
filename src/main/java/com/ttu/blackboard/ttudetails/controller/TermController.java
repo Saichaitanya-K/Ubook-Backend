@@ -1,13 +1,11 @@
 package com.ttu.blackboard.ttudetails.controller;
 
-import com.ttu.blackboard.ttudetails.Entity.Term;
 import com.ttu.blackboard.ttudetails.service.TermService;
 import com.ttu.blackboard.ttudetails.views.TermView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 
