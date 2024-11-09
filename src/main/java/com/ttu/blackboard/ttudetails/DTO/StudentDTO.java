@@ -1,6 +1,6 @@
-package com.ttu.blackboard.ttudetails.views;
+package com.ttu.blackboard.ttudetails.DTO;
 
-public class StudentView {
+public class StudentDTO {
     private Long studentId;
     private String firstName;
     private String lastName;

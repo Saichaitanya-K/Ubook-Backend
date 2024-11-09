@@ -2,7 +2,7 @@ package com.ttu.blackboard.ttudetails.service;
 
 import com.ttu.blackboard.ttudetails.Entity.Term;
 import com.ttu.blackboard.ttudetails.repository.TermRepository;
-import com.ttu.blackboard.ttudetails.views.TermView;
+import com.ttu.blackboard.ttudetails.DTO.TermDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,40 +16,40 @@ public class TermService {
     @Autowired
     private TermRepository termRepository;
 
-    public List<TermView> getAllTerms() {
+    public List<TermDTO> getAllTerms() {
         var terms = termRepository.findAll();
-        var termViews = new ArrayList<TermView>();
+        var termDTOs = new ArrayList<TermDTO>();
         for (var term : terms) {
-            termViews.add(termToView(term));
+            termDTOs.add(termToDTO(term));
         }
-        return termViews;
+        return termDTOs;
     }
 
-    public TermView saveTerm(String termCode) {
+    public TermDTO saveTerm(String termCode) {
         Term term = codeToTerm(termCode);
         boolean existsAlready = termRepository.existsBySeasonAndYear(term.getSeason(), term.getYear());
         if (existsAlready) {
             return null;
         }
 
-        return termToView(termRepository.save(codeToTerm(termCode)));
+        return termToDTO(termRepository.save(codeToTerm(termCode)));
     }
 
-    public TermView deleteTerm(String termCode) {
+    public TermDTO deleteTerm(String termCode) {
          Term term = codeToTerm(termCode);
          Term termInDB = termRepository.findBySeasonAndYear(term.getSeason(), term.getYear());
          if (termInDB == null) {
              return null;
          }
          termRepository.delete(termInDB);
-         return termToView(termInDB);
+         return termToDTO(termInDB);
     }
 
-    private TermView termToView(Term term) {
-        var termView = new TermView();
-        termView.setTermCode(term.getYear() + toCode(term.getSeason()));
-        termView.setTermDescription(term.getSeason() + " " + term.getYear());
-        return termView;
+    private TermDTO termToDTO(Term term) {
+        var termDTO = new TermDTO();
+        termDTO.setTermCode(term.getYear() + toCode(term.getSeason()));
+        termDTO.setTermDescription(term.getSeason() + " " + term.getYear());
+        return termDTO;
     }
 
     private Term codeToTerm(String termCode) {

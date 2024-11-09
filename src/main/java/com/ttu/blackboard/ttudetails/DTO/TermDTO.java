@@ -1,6 +1,6 @@
-package com.ttu.blackboard.ttudetails.views;
+package com.ttu.blackboard.ttudetails.DTO;
 
-public class TermView {
+public class TermDTO {
     private String termCode;
     private String termDescription;
 
