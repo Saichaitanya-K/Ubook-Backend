@@ -26,9 +26,10 @@ public class TermController {
     @PostMapping()
     public ResponseEntity<?> createTerm(@RequestParam("termCode") String termCode) {
         TermDTO savedTerm = termService.saveTerm(termCode);
-        if (savedTerm == null)
+        if (savedTerm == null) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
-                .body("This term already exists");
+                    .body("This term already exists");
+        }
         return new ResponseEntity<>(savedTerm, HttpStatus.CREATED);
 
     }

@@ -21,18 +21,6 @@ public class Student {
     @Column(nullable = false)
     private String major;
 
-    public Long getStudentId() {
-        return studentId;
-    }
-
-    @OneToOne(cascade = CascadeType.ALL, optional = true)
-    @JoinColumn(name = "scheduleId")
-    private Schedule schedule;
-
-    public void setStudentId(Long studentId) {
-        this.studentId = studentId;
-    }
-
     public String getFirstName() {
         return firstName;
     }
@@ -65,11 +53,12 @@ public class Student {
         this.major = major;
     }
 
-    public Schedule getSchedule() {
-        return schedule;
+
+    public Long getStudentId() {
+        return studentId;
     }
 
-    public void setSchedule(Schedule schedule) {
-        this.schedule = schedule;
+    public void setStudentId(Long studentId) {
+        this.studentId = studentId;
     }
 }
