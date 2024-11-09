@@ -35,5 +35,24 @@ public class StudentController {
         return new ResponseEntity<>(savedStudent, HttpStatus.CREATED);
     }
 
+    @PutMapping
+    public ResponseEntity<?> updateStudent(@RequestBody StudentDTO studentDTO){
+        StudentDTO updatedStudent = studentService.updateStudent(studentDTO);
+        if (updatedStudent == null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("A student with the specified ID does not exists");
+        }
+        return new ResponseEntity<>(updatedStudent, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<?> deleteStudent(@RequestParam Long studentId){
+        StudentDTO deletedStudent = studentService.deleteStudent(studentId);
+        if (deletedStudent == null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("A student with the specified ID does not exists");
+        }
+        return new ResponseEntity<>(deletedStudent, HttpStatus.CREATED);
+    }
 
 }

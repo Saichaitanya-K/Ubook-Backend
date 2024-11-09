@@ -1,6 +1,7 @@
 package com.ttu.blackboard.ttudetails.service;
 
 import com.ttu.blackboard.ttudetails.Entity.Student;
+import com.ttu.blackboard.ttudetails.Entity.Term;
 import com.ttu.blackboard.ttudetails.repository.StudentRepository;
 import com.ttu.blackboard.ttudetails.DTO.StudentDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StudentService {
@@ -33,6 +35,23 @@ public class StudentService {
         return studentToDTO(studentRepository.save(DTOstudent));
     }
 
+    public StudentDTO updateStudent(StudentDTO studentDTO) {
+        boolean existsAlready = studentRepository.existsById(studentDTO.getStudentId());
+        if (!existsAlready) {
+            return null;
+        }
+        var DTOstudent = DTOtoStudent(studentDTO);
+        return studentToDTO(studentRepository.save(DTOstudent));
+
+    }
+    public StudentDTO deleteStudent(Long studentId) {
+        Optional<Student> student = studentRepository.findById(studentId);
+        if (student.isEmpty()) {
+            return null;
+        }
+        studentRepository.delete(student.get());
+        return studentToDTO(student.get());
+    }
 
     private StudentDTO studentToDTO(Student student) {
         var studentDTO = new StudentDTO();
