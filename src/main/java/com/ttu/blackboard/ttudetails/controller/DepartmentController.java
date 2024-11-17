@@ -1,5 +1,6 @@
 package com.ttu.blackboard.ttudetails.controller;
 
+import com.ttu.blackboard.ttudetails.DTO.StudentDTO;
 import com.ttu.blackboard.ttudetails.Entity.Department;
 import com.ttu.blackboard.ttudetails.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,16 @@ public class DepartmentController {
     @GetMapping
     public List<Department> getAllDepartments() {
         return departmentService.findAllDepartments();
+    }
+
+    @GetMapping("/find")
+    public ResponseEntity<?> getDepartmentById(@RequestParam Long departmentId) {
+        var department = departmentService.findDepartment(departmentId);
+        if (department == null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("A department with the specified ID does not exist");
+        }
+        return new ResponseEntity<>(department, HttpStatus.OK);
     }
 
     // Create a new department using request parameters
@@ -100,11 +111,6 @@ public class DepartmentController {
         } else {
             return ResponseEntity.notFound().build(); // 404 Not Found
         }
-    }
-
-    @GetMapping("/test")
-    public String test() {
-        return "Hello, World!";
     }
 
 }

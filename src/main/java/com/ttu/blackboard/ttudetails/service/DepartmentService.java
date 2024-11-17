@@ -1,5 +1,7 @@
 package com.ttu.blackboard.ttudetails.service;
 
+import com.ttu.blackboard.ttudetails.DTO.DepartmentDTO;
+import com.ttu.blackboard.ttudetails.DTO.StudentDTO;
 import com.ttu.blackboard.ttudetails.Entity.Department;
 import com.ttu.blackboard.ttudetails.exception.ResourceNotFoundException;
 import com.ttu.blackboard.ttudetails.repository.DepartmentRepository;
@@ -62,4 +64,8 @@ public class DepartmentService {
         return false;
     }
 
+    public DepartmentDTO findDepartment(Long departmentId) {
+        var department = departmentRepository.findById(departmentId);
+        return department.map(DepartmentDTO::new).orElse(null);
+    }
 }

@@ -13,7 +13,8 @@ public class StudentDTO {
         email = student.getEmail();
         address = student.getAddress();
         department = new StudentDepartmentDTO(student.getDepartment());
-        advisor = new AdvisorDTO(student.getDepartment().getAdvisor());
+        if (student.getDepartment().getAdvisor() != null)
+            advisor = new AdvisorDTO(student.getDepartment().getAdvisor());
     }
 
     private Long studentId;
