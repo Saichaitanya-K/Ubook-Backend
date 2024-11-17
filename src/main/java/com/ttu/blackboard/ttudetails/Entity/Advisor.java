@@ -3,9 +3,10 @@ package com.ttu.blackboard.ttudetails.Entity;
 import jakarta.persistence.*;
 
 @Entity
-public class Student {
+@Table(name = "advisor")
+public class Advisor {
     @Id
-    private Long studentId;
+    private Long advisorId;
 
     @Column(nullable = false)
     private String firstName;
@@ -14,13 +15,10 @@ public class Student {
     private String lastName;
 
     @Column(nullable = false)
-    private String address;
-
-    @Column(nullable = false)
     private String email;
 
-    @ManyToOne
-    @JoinColumn(name = "advisor_id", nullable = true)
+    @OneToOne()
+    @JoinColumn(name = "department_id", nullable = true)
     private Department department;
 
     public String getFirstName() {
@@ -39,29 +37,12 @@ public class Student {
         this.lastName = lastName;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String major) {
-        this.email = major;
-    }
-
-
-    public Long getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(Long studentId) {
-        this.studentId = studentId;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Department getDepartment() {
@@ -70,5 +51,13 @@ public class Student {
 
     public void setDepartment(Department department) {
         this.department = department;
+    }
+
+    public Long getAdvisorId() {
+        return advisorId;
+    }
+
+    public void setAdvisorId(Long advisorId) {
+        this.advisorId = advisorId;
     }
 }

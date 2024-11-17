@@ -1,10 +1,8 @@
 package com.ttu.blackboard.ttudetails.controller;
 
-import com.ttu.blackboard.ttudetails.Entity.Student;
+import com.ttu.blackboard.ttudetails.DTO.CreateStudentDTO;
 import com.ttu.blackboard.ttudetails.service.StudentService;
 import com.ttu.blackboard.ttudetails.DTO.StudentDTO;
-import com.ttu.blackboard.ttudetails.service.TermService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +24,8 @@ public class StudentController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createStudent(@RequestBody StudentDTO studentDTO){
-        StudentDTO savedStudent = studentService.saveStudent(studentDTO);
+    public ResponseEntity<?> createStudent(@RequestBody CreateStudentDTO student){
+        StudentDTO savedStudent = studentService.saveStudent(student);
         if (savedStudent == null) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body("A student with the specified ID already exists");
@@ -35,7 +33,7 @@ public class StudentController {
         return new ResponseEntity<>(savedStudent, HttpStatus.CREATED);
     }
 
-    @PutMapping
+/*    @PutMapping
     public ResponseEntity<?> updateStudent(@RequestBody StudentDTO studentDTO){
         StudentDTO updatedStudent = studentService.updateStudent(studentDTO);
         if (updatedStudent == null) {
@@ -43,16 +41,16 @@ public class StudentController {
                     .body("A student with the specified ID does not exists");
         }
         return new ResponseEntity<>(updatedStudent, HttpStatus.CREATED);
-    }
+    }*/
 
-    @DeleteMapping
+/*    @DeleteMapping
     public ResponseEntity<?> deleteStudent(@RequestParam Long studentId){
         StudentDTO deletedStudent = studentService.deleteStudent(studentId);
         if (deletedStudent == null) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("A student with the specified ID does not exists");
+                    .body("A student with the specified ID does not exist");
         }
         return new ResponseEntity<>(deletedStudent, HttpStatus.CREATED);
-    }
+    }*/
 
 }

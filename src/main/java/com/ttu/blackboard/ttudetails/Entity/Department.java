@@ -1,6 +1,7 @@
 package com.ttu.blackboard.ttudetails.Entity;
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.Collection;
 
 @Entity
 @Table(name = "Department")
@@ -22,6 +23,9 @@ public class Department {
     @Column(nullable = false)
     private LocalDate deptCreatedDate;
 
+    @OneToOne(mappedBy = "department", optional = true)
+    private Advisor advisor;
+
     // Constructors, getters, and setters
     public Department() {}
 
@@ -39,4 +43,15 @@ public class Department {
 
     public LocalDate getDeptCreatedDate() { return deptCreatedDate; }
     public void setDeptCreatedDate(LocalDate deptCreatedDate) { this.deptCreatedDate = deptCreatedDate; }
+
+    @OneToMany(mappedBy = "department")
+    private Collection<Student> students;
+
+    public Advisor getAdvisor() {
+        return advisor;
+    }
+
+    public void setAdvisor(Advisor advisor) {
+        this.advisor = advisor;
+    }
 }
