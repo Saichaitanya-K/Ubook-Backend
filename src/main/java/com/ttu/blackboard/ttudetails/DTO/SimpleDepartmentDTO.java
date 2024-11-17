@@ -2,8 +2,8 @@ package com.ttu.blackboard.ttudetails.DTO;
 
 import com.ttu.blackboard.ttudetails.Entity.Department;
 
-public class StudentDepartmentDTO {
-    StudentDepartmentDTO(Department department) {
+public class SimpleDepartmentDTO {
+    SimpleDepartmentDTO(Department department) {
         departmentId = department.getDeptId();
         deptName = department.getDeptName();
         deptCode = department.getDeptCode();

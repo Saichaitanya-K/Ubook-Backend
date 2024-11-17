@@ -1,6 +1,5 @@
 package com.ttu.blackboard.ttudetails.DTO;
 
-import com.ttu.blackboard.ttudetails.Entity.Department;
 import com.ttu.blackboard.ttudetails.Entity.Student;
 
 public class StudentDTO {
@@ -12,7 +11,7 @@ public class StudentDTO {
         lastName = student.getLastName();
         email = student.getEmail();
         address = student.getAddress();
-        department = new StudentDepartmentDTO(student.getDepartment());
+        department = new SimpleDepartmentDTO(student.getDepartment());
         if (student.getDepartment().getAdvisor() != null)
             advisor = new AdvisorDTO(student.getDepartment().getAdvisor());
     }
@@ -22,7 +21,7 @@ public class StudentDTO {
     private String lastName;
     private String address;
     private String email;
-    private StudentDepartmentDTO department;
+    private SimpleDepartmentDTO department;
     private AdvisorDTO advisor;
 
     public Long getStudentId() {
@@ -65,11 +64,11 @@ public class StudentDTO {
         this.email = email;
     }
 
-    public StudentDepartmentDTO getDepartment() {
+    public SimpleDepartmentDTO getDepartment() {
         return department;
     }
 
-    public void setDepartment(StudentDepartmentDTO department) {
+    public void setDepartment(SimpleDepartmentDTO department) {
         this.department = department;
     }
 
