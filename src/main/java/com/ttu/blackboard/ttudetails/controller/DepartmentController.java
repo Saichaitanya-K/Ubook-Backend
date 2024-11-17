@@ -1,5 +1,7 @@
 package com.ttu.blackboard.ttudetails.controller;
 
+import com.ttu.blackboard.ttudetails.DTO.AdvisorWithDepartmentDTO;
+import com.ttu.blackboard.ttudetails.DTO.DepartmentDTO;
 import com.ttu.blackboard.ttudetails.DTO.StudentDTO;
 import com.ttu.blackboard.ttudetails.Entity.Department;
 import com.ttu.blackboard.ttudetails.service.DepartmentService;
@@ -31,6 +33,15 @@ public class DepartmentController {
         if (department == null) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body("A department with the specified ID does not exist");
+        }
+        return new ResponseEntity<>(department, HttpStatus.OK);
+    }
+    @GetMapping("/of")
+    public ResponseEntity<?> getDepartmentByAdvisor(@RequestParam Long advisorId) {
+        DepartmentDTO department = departmentService.findDepartmentByAdvisor(advisorId);
+        if (department == null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("A department with an advisor with that specified ID does not exist");
         }
         return new ResponseEntity<>(department, HttpStatus.OK);
     }
@@ -112,5 +123,7 @@ public class DepartmentController {
             return ResponseEntity.notFound().build(); // 404 Not Found
         }
     }
+
+
 
 }

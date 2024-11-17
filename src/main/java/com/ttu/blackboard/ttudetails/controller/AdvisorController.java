@@ -35,6 +35,16 @@ public class AdvisorController {
         return new ResponseEntity<>(advisor, HttpStatus.OK);
     }
 
+    @GetMapping("/of")
+    public ResponseEntity<?> getAdvisorByDepartment(@RequestParam Long departmentId) {
+        AdvisorWithDepartmentDTO advisor = advisorService.findAdvisorByDepartment(departmentId);
+        if (advisor == null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("An advisor assigned to a department with that specified ID does not exist");
+        }
+        return new ResponseEntity<>(advisor, HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<?> createAdvisor(@RequestBody CreateAdvisorDTO advisor) {
         AdvisorWithDepartmentDTO savedAdvisor = advisorService.saveAdvisor(advisor);
@@ -54,6 +64,15 @@ public class AdvisorController {
         return new ResponseEntity<>(savedAdvisor, HttpStatus.CREATED);
     }
 
+    @PutMapping("/assign")
+    public ResponseEntity<?> assignAdvisorToDepartment(@RequestParam Long advisorId, @RequestParam Long departmentId) {
+        AdvisorWithDepartmentDTO advisor = advisorService.assignAdvisorToDepartment(advisorId, departmentId);
+        if (advisor == null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("One of the IDs is invalid");
+        }
+        return new ResponseEntity<>(advisor, HttpStatus.OK);
+    }
 
     @DeleteMapping
     public ResponseEntity<?> deleteAdvisor(@RequestParam Long advisorId) {

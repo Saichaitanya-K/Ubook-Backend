@@ -33,7 +33,7 @@ public class StudentController {
         return new ResponseEntity<>(student, HttpStatus.OK);
     }
 
-    @GetMapping("/studentsIn")
+    @GetMapping("/in")
     public ResponseEntity<?> getStudentsByDepartment(@RequestParam Long departmentId) {
 
         var students = studentService.getStudentsByDepartment(departmentId);

@@ -68,4 +68,9 @@ public class DepartmentService {
         var department = departmentRepository.findById(departmentId);
         return department.map(DepartmentDTO::new).orElse(null);
     }
+
+    public DepartmentDTO findDepartmentByAdvisor(Long advisorId) {
+        var department = departmentRepository.findDepartmentByAdvisorId(advisorId);
+        return department.map(DepartmentDTO::new).orElse(null);
+    }
 }
