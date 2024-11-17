@@ -70,7 +70,7 @@ public class StudentController {
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body("A student with the specified ID does not exist");
         }
-        return new ResponseEntity<>(deletedStudent, HttpStatus.CREATED);
+        return new ResponseEntity<>(deletedStudent, HttpStatus.OK);
     }
 
 }

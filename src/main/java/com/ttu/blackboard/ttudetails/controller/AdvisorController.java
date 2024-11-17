@@ -3,14 +3,13 @@ package com.ttu.blackboard.ttudetails.controller;
 
 import com.ttu.blackboard.ttudetails.DTO.AdvisorDTO;
 import com.ttu.blackboard.ttudetails.DTO.AdvisorWithDepartmentDTO;
+import com.ttu.blackboard.ttudetails.DTO.CreateAdvisorDTO;
 import com.ttu.blackboard.ttudetails.service.AdvisorService;
+import com.ttu.blackboard.ttudetails.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,6 +18,8 @@ import java.util.List;
 public class AdvisorController {
     @Autowired
     private AdvisorService advisorService;
+    @Autowired
+    private StudentService studentService;
 
     @GetMapping
     public List<AdvisorWithDepartmentDTO> getAllAdvisors() {
@@ -33,5 +34,36 @@ public class AdvisorController {
         }
         return new ResponseEntity<>(advisor, HttpStatus.OK);
     }
+
+    @PostMapping
+    public ResponseEntity<?> createAdvisor(@RequestBody CreateAdvisorDTO advisor) {
+        AdvisorWithDepartmentDTO savedAdvisor = advisorService.saveAdvisor(advisor);
+        if (savedAdvisor == null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("An advisor with the specified ID already exists");
+        }
+        return new ResponseEntity<>(savedAdvisor, HttpStatus.CREATED);
+    }
+    @PutMapping
+    public ResponseEntity<?> updateAdvisor(@RequestBody CreateAdvisorDTO advisor) {
+        AdvisorWithDepartmentDTO savedAdvisor = advisorService.updateAdvisor(advisor);
+        if (savedAdvisor == null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("An advisor with the specified ID does not exist");
+        }
+        return new ResponseEntity<>(savedAdvisor, HttpStatus.CREATED);
+    }
+
+
+    @DeleteMapping
+    public ResponseEntity<?> deleteAdvisor(@RequestParam Long advisorId) {
+        AdvisorWithDepartmentDTO deletedAdvisor = advisorService.deleteAdvisor(advisorId);
+        if (deletedAdvisor == null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("An advisor with the specified ID does not exist");
+        }
+        return new ResponseEntity<>(deletedAdvisor, HttpStatus.OK);
+    }
+
 
 }
