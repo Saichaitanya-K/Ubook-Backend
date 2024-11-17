@@ -23,6 +23,27 @@ public class StudentController {
         return studentService.getAllStudents();
     }
 
+    @GetMapping("/find")
+    public ResponseEntity<?> getStudentById(@RequestParam Long studentId) {
+        StudentDTO student = studentService.findStudent(studentId);
+        if (student == null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("A student with the specified ID does not exist");
+        }
+        return new ResponseEntity<>(student, HttpStatus.OK);
+    }
+
+    @GetMapping("/studentsIn")
+    public ResponseEntity<?> getStudentsByDepartment(@RequestParam Long departmentId) {
+
+        var students = studentService.getStudentsByDepartment(departmentId);
+        if (students == null) {
+             return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body("A department with the specified ID does not exist");
+        }
+        return new ResponseEntity<>(students, HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<?> createStudent(@RequestBody CreateStudentDTO student){
         StudentDTO savedStudent = studentService.saveStudent(student);
@@ -38,7 +59,7 @@ public class StudentController {
         StudentDTO updatedStudent = studentService.updateStudent(studentDTO);
         if (updatedStudent == null) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("A student with the specified ID does not exists");
+                    .body("A student with the specified ID does not exist");
         }
         return new ResponseEntity<>(updatedStudent, HttpStatus.CREATED);
     }

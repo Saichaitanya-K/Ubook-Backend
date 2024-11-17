@@ -6,6 +6,7 @@ import com.ttu.blackboard.ttudetails.repository.DepartmentRepository;
 import com.ttu.blackboard.ttudetails.repository.StudentRepository;
 import com.ttu.blackboard.ttudetails.DTO.StudentDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,6 +28,10 @@ public class StudentService {
             DTOs.add(new StudentDTO(model));
         }
         return DTOs;
+    }
+    public StudentDTO findStudent(Long id) {
+        var student = studentRepository.findById(id);
+        return student.map(StudentDTO::new).orElse(null);
     }
 
     public StudentDTO saveStudent(CreateStudentDTO studentDTO) {
@@ -67,4 +72,18 @@ public class StudentService {
         return new StudentDTO(student.get());
     }
 
+
+    public List<StudentDTO> getStudentsByDepartment(Long departmentId) {
+        var departmentExists = departmentRepository.existsById(departmentId);
+        if (!departmentExists) {
+            return null;
+        }
+        var students =  studentRepository.findByDepartment(departmentId);
+        var DTOs = new ArrayList<StudentDTO>();
+        for (var model : students) {
+            DTOs.add(new StudentDTO(model));
+        }
+        return DTOs;
+
+    }
 }
