@@ -18,8 +18,6 @@ import java.util.List;
 public class AdvisorController {
     @Autowired
     private AdvisorService advisorService;
-    @Autowired
-    private StudentService studentService;
 
     @GetMapping
     public List<AdvisorWithDepartmentDTO> getAllAdvisors() {
@@ -78,7 +76,7 @@ public class AdvisorController {
     public ResponseEntity<?> deleteAdvisor(@RequestParam Long advisorId) {
         AdvisorWithDepartmentDTO deletedAdvisor = advisorService.deleteAdvisor(advisorId);
         if (deletedAdvisor == null) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body("An advisor with the specified ID does not exist");
         }
         return new ResponseEntity<>(deletedAdvisor, HttpStatus.OK);
