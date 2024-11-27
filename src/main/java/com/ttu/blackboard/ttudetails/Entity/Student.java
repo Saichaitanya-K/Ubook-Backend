@@ -20,7 +20,7 @@ public class Student {
     private String email;
 
     @ManyToOne
-    @JoinColumn(name = "advisor_id", nullable = true)
+    @JoinColumn(name = "department_id", nullable = true)
     private Department department;
 
     public String getFirstName() {
