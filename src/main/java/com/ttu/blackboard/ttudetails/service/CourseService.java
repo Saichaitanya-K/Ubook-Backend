@@ -1,5 +1,6 @@
 package com.ttu.blackboard.ttudetails.service;
 
+import com.ttu.blackboard.ttudetails.DTO.AdvisorWithDepartmentDTO;
 import com.ttu.blackboard.ttudetails.DTO.CourseDTO;
 import com.ttu.blackboard.ttudetails.DTO.CourseWithDeptIdDTO;
 import com.ttu.blackboard.ttudetails.Entity.Advisor;
@@ -33,6 +34,12 @@ public class CourseService {
         return DTOs;
     }
 
+    public CourseDTO findCourse(Long courseNumber) {
+        var course = courseRepository.findById(courseNumber);
+        return course.map(CourseDTO::new).orElse(null);
+    }
+
+
     public CourseDTO saveCourse(CourseWithDeptIdDTO course) {
         boolean existsAlready = advisorRepository.existsById(course.getCourseNumber());
         if (existsAlready) {
@@ -40,6 +47,24 @@ public class CourseService {
         }
         return saveDTO(course);
     }
+
+    public CourseDTO updateCourse(CourseWithDeptIdDTO course) {
+        boolean existsAlready = courseRepository.existsById(course.getCourseNumber());
+        if (!existsAlready) {
+            return null;
+        }
+        return saveDTO(course);
+    }
+
+    public CourseDTO deleteCourse(Long courseNumber) {
+        Optional<Course> course = courseRepository.findById(courseNumber);
+        if (course.isEmpty()) {
+            return null;
+        }
+        courseRepository.delete(course.get());
+        return new CourseDTO(course.get());
+    }
+
 
     private CourseDTO saveDTO(CourseWithDeptIdDTO courseDTO) {
         Optional<Department> optionalDepartment = departmentRepository.findById(courseDTO.getDepartmentId());
@@ -50,9 +75,12 @@ public class CourseService {
         var course = new Course();
         course.setCourseNumber(courseDTO.getCourseNumber());
         course.setCourseName(courseDTO.getCourseName());
+        course.setGraduate(courseDTO.isGraduate());
         course.setDepartment(department);
         return new CourseDTO(courseRepository.save(course));
     }
+
+
 
 
 }

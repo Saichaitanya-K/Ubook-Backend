@@ -6,6 +6,7 @@ public class CourseWithDeptIdDTO {
     private Long departmentId;
     private Long courseNumber;
     private String courseName;
+    private boolean isGraduate;
 
     public CourseWithDeptIdDTO() {
 
@@ -14,6 +15,7 @@ public class CourseWithDeptIdDTO {
         departmentId = course.getDepartment().getDeptId();
         courseNumber = course.getCourseNumber();
         courseName = course.getCourseName();
+        isGraduate = course.isGraduate();
     }
 
 
@@ -40,5 +42,13 @@ public class CourseWithDeptIdDTO {
 
     public void setCourseName(String courseName) {
         this.courseName = courseName;
+    }
+
+    public boolean isGraduate() {
+        return isGraduate;
+    }
+
+    public void setGraduate(boolean graduate) {
+        isGraduate = graduate;
     }
 }

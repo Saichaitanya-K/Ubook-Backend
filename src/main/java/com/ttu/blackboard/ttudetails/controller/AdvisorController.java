@@ -27,8 +27,8 @@ public class AdvisorController {
     public ResponseEntity<?> getAdvisorById(@RequestParam Long advisorId) {
         AdvisorWithDepartmentDTO advisor = advisorService.findAdvisor(advisorId);
         if (advisor == null) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("An advisor with the specified ID does not exist");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("An advisor with the specified ID does not exist.");
         }
         return new ResponseEntity<>(advisor, HttpStatus.OK);
     }

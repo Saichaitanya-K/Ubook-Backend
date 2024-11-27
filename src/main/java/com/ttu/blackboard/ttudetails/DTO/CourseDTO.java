@@ -6,11 +6,13 @@ public class CourseDTO {
     private String departmentCode;
     private Long courseNumber;
     private String courseName;
+    private boolean isGraduate;
 
     public CourseDTO(Course course) {
         departmentCode = course.getDepartment().getDeptCode();
         courseNumber = course.getCourseNumber();
         courseName = course.getCourseName();
+        isGraduate = course.isGraduate();
     }
 
 
@@ -37,5 +39,13 @@ public class CourseDTO {
 
     public void setCourseName(String courseName) {
         this.courseName = courseName;
+    }
+
+    public boolean isGraduate() {
+        return isGraduate;
+    }
+
+    public void setGraduate(boolean graduate) {
+        isGraduate = graduate;
     }
 }
