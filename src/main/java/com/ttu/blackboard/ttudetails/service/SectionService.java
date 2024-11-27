@@ -43,6 +43,23 @@ public class SectionService {
         }
         return saveDTO(createSectionDTO);
     }
+    public SectionDTO updateSection(CreateSectionDTO createSectionDTO) {
+        boolean existsAlready = sectionRepository.existsById(createSectionDTO.getSectionId());
+        if (!existsAlready) {
+            return null;
+        }
+        return saveDTO(createSectionDTO);
+    }
+
+    public SectionDTO deleteSection(Long sectionId) {
+        Optional<Section> section = sectionRepository.findById(sectionId);
+        if (section.isEmpty()) {
+            return null;
+        }
+        sectionRepository.delete(section.get());
+        return new SectionDTO(section.get());
+    }
+
 
     private SectionDTO saveDTO(CreateSectionDTO createSectionDTO) {
         Optional<Term> optionalTerm = termRepository.findById(createSectionDTO.getTermId());
@@ -54,7 +71,6 @@ public class SectionService {
         Term term = optionalTerm.get();
         Course course = optionalCourse.get();
         Instructor instructor = optionalInstructor.get();
-
 
         var section = new Section();
         section.setLocation(createSectionDTO.getLocation());
