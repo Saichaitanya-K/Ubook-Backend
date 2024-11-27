@@ -2,6 +2,8 @@ package com.ttu.blackboard.ttudetails.Entity;
 
 import jakarta.persistence.*;
 
+import java.util.Collection;
+
 @Entity
 @Table(name = "instructor")
 public class Instructor {
@@ -18,6 +20,9 @@ public class Instructor {
     private String email;
     @Column(nullable = false)
     private String reportsTo;
+
+    @OneToMany(mappedBy = "instructor")
+    private Collection<Section> sections;
 
     public Long getInstructorId() {
         return instructorId;

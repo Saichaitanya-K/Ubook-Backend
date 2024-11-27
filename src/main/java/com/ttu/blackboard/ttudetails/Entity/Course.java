@@ -3,6 +3,8 @@ package com.ttu.blackboard.ttudetails.Entity;
 
 import jakarta.persistence.*;
 
+import java.util.Collection;
+
 @Entity
 @Table(name = "course")
 public class Course {
@@ -19,6 +21,8 @@ public class Course {
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 
+    @OneToMany(mappedBy = "course")
+    private Collection<Section> sections;
 
     public Long getCourseNumber() {
         return courseNumber;

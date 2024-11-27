@@ -2,6 +2,8 @@ package com.ttu.blackboard.ttudetails.Entity;
 
 import jakarta.persistence.*;
 
+import java.util.Collection;
+
 @Entity
 @Table(name = "Term")
 public class Term {
@@ -15,6 +17,9 @@ public class Term {
 
     @Column(nullable = false)
     private Integer year;
+
+    @OneToMany(mappedBy = "term")
+    private Collection<Section> sections;
 
     // Constructors, getters, and setters
     public Term() {}

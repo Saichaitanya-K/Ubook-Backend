@@ -22,8 +22,6 @@ public class CourseService {
     private CourseRepository courseRepository;
     @Autowired
     private DepartmentRepository departmentRepository;
-    @Autowired
-    private AdvisorRepository advisorRepository;
 
     public List<CourseDTO> getAllCourses() {
         var models = courseRepository.findAll();
@@ -41,7 +39,7 @@ public class CourseService {
 
 
     public CourseDTO saveCourse(CourseWithDeptIdDTO course) {
-        boolean existsAlready = advisorRepository.existsById(course.getCourseNumber());
+        boolean existsAlready = courseRepository.existsById(course.getCourseNumber());
         if (existsAlready) {
             return null;
         }

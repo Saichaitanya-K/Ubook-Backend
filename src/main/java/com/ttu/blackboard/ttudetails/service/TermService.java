@@ -32,7 +32,7 @@ public class TermService {
             return null;
         }
 
-        return termToDTO(termRepository.save(codeToTerm(termCode)));
+        return new TermDTO(termRepository.save(codeToTerm(termCode)));
     }
 
     public TermDTO deleteTerm(String termCode) {
@@ -42,7 +42,7 @@ public class TermService {
              return null;
          }
          termRepository.delete(termInDB);
-         return termToDTO(termInDB);
+         return new TermDTO(termInDB);
     }
 
     private TermDTO termToDTO(Term term) {
