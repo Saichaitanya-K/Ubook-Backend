@@ -44,6 +44,11 @@ public class StudentController {
         return new ResponseEntity<>(students, HttpStatus.OK);
     }
 
+    @GetMapping("/enrolledIn")
+    public List<StudentDTO> getStudentsByEnrolledIn(@RequestParam Long sectionId) {
+        return studentService.findStudentsEnrolledIn(sectionId);
+    }
+
     @PostMapping
     public ResponseEntity<?> createStudent(@RequestBody CreateStudentDTO student){
         StudentDTO savedStudent = studentService.saveStudent(student);

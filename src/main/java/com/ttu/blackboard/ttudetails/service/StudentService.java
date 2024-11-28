@@ -34,6 +34,16 @@ public class StudentService {
         return student.map(StudentDTO::new).orElse(null);
     }
 
+    public List<StudentDTO> findStudentsEnrolledIn(Long sectionId) {
+        var models = studentRepository.findStudentsBySectionId(sectionId);
+        var DTOs = new ArrayList<StudentDTO>();
+        for (var model : models) {
+            DTOs.add(new StudentDTO(model));
+        }
+        return DTOs;
+    }
+
+
     public StudentDTO saveStudent(CreateStudentDTO studentDTO) {
         boolean existsAlready = studentRepository.existsById(studentDTO.getStudentId());
         if (existsAlready) {

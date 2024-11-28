@@ -2,6 +2,9 @@ package com.ttu.blackboard.ttudetails.Entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 public class Student {
     @Id
@@ -22,6 +25,10 @@ public class Student {
     @ManyToOne
     @JoinColumn(name = "department_id", nullable = true)
     private Department department;
+
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Enrollment> enrollments = new ArrayList<>();
+
 
     public String getFirstName() {
         return firstName;

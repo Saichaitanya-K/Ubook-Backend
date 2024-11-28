@@ -23,6 +23,10 @@ public class SectionService {
     private InstructorRepository instructorRepository;
     @Autowired
     private ClassTimeRepository classTimeRepository;
+    @Autowired
+    private StudentRepository studentRepository;
+    @Autowired
+    private EnrollmentRepository enrollmentRepository;
 
     public List<SectionDTO> getAllSections() {
         var models = sectionRepository.findAll();
@@ -36,6 +40,16 @@ public class SectionService {
         var section = sectionRepository.findById(sectionId);
         return section.map(SectionDTO::new).orElse(null);
     }
+    public List<SectionDTO> findSectionsEnrolledBy(Long studentId) {
+        var models = sectionRepository.findSectionsByStudentId(studentId);
+        var DTOs = new ArrayList<SectionDTO>();
+        for (var model : models) {
+            DTOs.add(new SectionDTO(model));
+        }
+        return DTOs;
+    }
+
+
     public SectionDTO saveSection(CreateSectionDTO createSectionDTO) {
         boolean existsAlready = sectionRepository.existsById(createSectionDTO.getSectionId());
         if (existsAlready) {
@@ -50,6 +64,33 @@ public class SectionService {
         }
         return saveDTO(createSectionDTO);
     }
+
+    public boolean enrollStudent(Long sectionId, Long studentId) {
+        Optional<Section> optionalSection = sectionRepository.findById(sectionId);
+        Optional<Student> optionalStudent = studentRepository.findById(studentId);
+        if (optionalSection.isEmpty() || optionalStudent.isEmpty()) {
+            return false;
+        }
+        Section section = optionalSection.get();
+        Student student = optionalStudent.get();
+        Enrollment enrollment = new Enrollment();
+        enrollment.setStudent(student);
+        enrollment.setSection(section);
+        enrollmentRepository.save(enrollment);
+        return true;
+    }
+
+    public boolean disenrollStudent(Long sectionId, Long studentId) {
+        boolean exists = enrollmentRepository.existsByStudentStudentIdAndSectionSectionId(studentId, sectionId);
+        if (!exists) {
+            return false;
+        }
+        enrollmentRepository.deleteByStudentIdAndSectionId(studentId, sectionId);
+        return true;
+    }
+
+
+
 
     public SectionDTO deleteSection(Long sectionId) {
         Optional<Section> section = sectionRepository.findById(sectionId);

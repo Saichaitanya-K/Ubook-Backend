@@ -2,9 +2,7 @@ package com.ttu.blackboard.ttudetails.controller;
 
 import com.ttu.blackboard.ttudetails.DTO.CreateSectionDTO;
 import com.ttu.blackboard.ttudetails.DTO.SectionDTO;
-import com.ttu.blackboard.ttudetails.Entity.Section;
 import com.ttu.blackboard.ttudetails.service.SectionService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +28,30 @@ public class SectionController {
                     .body("A section with the specified ID was not found.");
         }
         return new ResponseEntity<>(section, HttpStatus.OK);
+    }
+    @GetMapping("/takenBy")
+    public List<SectionDTO> getSectionsByStudent(Long studentId) {
+        return sectionService.findSectionsEnrolledBy(studentId);
+    }
+
+    @PostMapping("/enroll")
+    public ResponseEntity<?> enrollStudent(@RequestParam Long sectionId, @RequestParam Long studentId) {
+        var wasSuccessful = sectionService.enrollStudent(sectionId, studentId);
+        if (!wasSuccessful) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("The specified student or section was not found.");
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/disenroll")
+    public ResponseEntity<?> disenrollStudent(@RequestParam Long sectionId, @RequestParam Long studentId) {
+        var wasSuccessful = sectionService.disenrollStudent(sectionId, studentId);
+        if (!wasSuccessful) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("The specified student is not enrolled in the specified section.");
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping()

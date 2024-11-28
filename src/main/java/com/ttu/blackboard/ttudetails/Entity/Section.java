@@ -2,6 +2,9 @@ package com.ttu.blackboard.ttudetails.Entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "section")
 public class Section {
@@ -28,6 +31,9 @@ public class Section {
 
     @OneToOne(mappedBy = "section", optional = false, cascade = CascadeType.ALL, orphanRemoval = true)
     private ClassTime classTime;
+
+    @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Enrollment> enrollments = new ArrayList<>();
 
 
     public Long getSectionId() {
