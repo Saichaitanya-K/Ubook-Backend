@@ -1,5 +1,6 @@
 package com.ttu.blackboard.ttudetails.controller;
 
+import com.ttu.blackboard.ttudetails.DTO.CreateGradeDTO;
 import com.ttu.blackboard.ttudetails.DTO.SectionAssignmentDTO;
 import com.ttu.blackboard.ttudetails.service.GradeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,15 @@ public class GradeController {
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
+    @PostMapping("/gradeItem")
+    public ResponseEntity<?> gradeAssignment(@RequestBody CreateGradeDTO createGradeDTO) {
+        var result = gradeService.gradeAssignment(createGradeDTO);
+        if (result == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("The assignment could not be created.");
+        }
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
+    }
 
 
 

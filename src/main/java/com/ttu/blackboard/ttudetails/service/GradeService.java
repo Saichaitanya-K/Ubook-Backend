@@ -60,7 +60,7 @@ public class GradeService {
         return new SectionAssignmentDTO(assignmentRepository.save(assignment));
     }
 
-    private StudentAssignmentDTO gradeAssignment(CreateGradeDTO dto) {
+    public StudentAssignmentDTO gradeAssignment(CreateGradeDTO dto) {
         var assignment = assignmentRepository.findById(dto.getAssignmentId());
         if (assignment.isEmpty()) {
             return null;
