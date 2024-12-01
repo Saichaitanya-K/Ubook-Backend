@@ -2,6 +2,8 @@ package com.ttu.blackboard.ttudetails.Entity;
 
 import jakarta.persistence.*;
 
+import java.util.Collection;
+
 @Entity
 public class Enrollment {
     @Id
@@ -15,6 +17,9 @@ public class Enrollment {
     @ManyToOne
     @JoinColumn(name = "section_id", nullable = false)
     private Section section;
+
+    @OneToMany(mappedBy = "enrollment")
+    private Collection<AssignmentGrade> grades;
 
 
     public Long getEnrollmentId() {

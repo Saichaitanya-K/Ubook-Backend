@@ -3,6 +3,7 @@ package com.ttu.blackboard.ttudetails.Entity;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -35,6 +36,8 @@ public class Section {
     @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Enrollment> enrollments = new ArrayList<>();
 
+    @OneToMany(mappedBy = "section")
+    private Collection<Assignment> assignments;
 
     public Long getSectionId() {
         return sectionId;

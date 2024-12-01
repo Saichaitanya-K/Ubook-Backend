@@ -14,4 +14,5 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
     void deleteByStudentIdAndSectionId(@Param("studentId") Long studentId, @Param("sectionId") Long sectionId);
 
     boolean existsByStudentStudentIdAndSectionSectionId(Long studentId, Long sectionId);
+
 }
