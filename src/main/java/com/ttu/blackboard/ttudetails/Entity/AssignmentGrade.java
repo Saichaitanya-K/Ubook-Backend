@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 @Entity
 public class AssignmentGrade {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long gradeId;
 
     @Column(nullable = false)

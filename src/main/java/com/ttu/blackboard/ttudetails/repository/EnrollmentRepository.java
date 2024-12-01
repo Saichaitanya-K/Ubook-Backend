@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
+
 public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
     @Modifying
     @Transactional
@@ -15,4 +17,5 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
 
     boolean existsByStudentStudentIdAndSectionSectionId(Long studentId, Long sectionId);
 
+    Optional<Enrollment> findByStudentStudentIdAndSectionSectionId(Long studentId, Long sectionId);
 }

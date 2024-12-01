@@ -20,6 +20,18 @@ public class GradeController {
         return gradeService.getAllAssignmentsFromSection(sectionId);
     }
 
+    @GetMapping("/itemGrade")
+    public ResponseEntity<?> getAssignmentGrade(Long studentId, Long assignmentId) {
+        var result = gradeService.getAssignmentGrade(studentId, assignmentId);
+        if (result == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("A student with the specified ID is not enrolled in " +
+                            "a section having the specified assignment ID.");
+
+        }
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
     @PostMapping("/items")
     public ResponseEntity<?> saveAssignment(@RequestBody SectionAssignmentDTO sectionAssignmentDTO) {
         var result = gradeService.saveAssignment(sectionAssignmentDTO);
@@ -29,6 +41,8 @@ public class GradeController {
         }
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
+
+
 
 
 }
