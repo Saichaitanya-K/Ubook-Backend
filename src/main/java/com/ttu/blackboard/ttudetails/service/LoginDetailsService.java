@@ -1,7 +1,9 @@
 package com.ttu.blackboard.ttudetails.service;
 
 
+import com.ttu.blackboard.ttudetails.Entity.AdvisorNew;
 import com.ttu.blackboard.ttudetails.Entity.LoginDetails;
+import com.ttu.blackboard.ttudetails.repository.AdvisorNewRepository;
 import com.ttu.blackboard.ttudetails.repository.LoginDetailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,9 @@ public class LoginDetailsService {
 
     @Autowired
     private LoginDetailsRepository loginDetailsRepository;
+
+    @Autowired
+    private AdvisorNewRepository advisorNewRepository;
 
     // Find all users
     public List<LoginDetails> findAllUsers() {
@@ -89,4 +94,25 @@ public class LoginDetailsService {
         }
         return false;
     }
+
+
+    public LoginDetails validateUser(String email, String password) {
+        // Find user by email and password
+        Optional<LoginDetails> user = loginDetailsRepository.findByEmailAndPassword(email, password);
+        return user.orElse(null);
+    }
+
+
+    public void createAdvisor(LoginDetails loginDetails) {
+
+
+        AdvisorNew advisorNew = new AdvisorNew();
+        advisorNew.setAdvisor(loginDetails); // Set the LoginDetails entity as advisor
+        advisorNew.setDepartment(null); // Set the Department entity
+
+        // Save the AdvisorNew entity to the database
+        advisorNewRepository.save(advisorNew);
+    }
+
+
 }

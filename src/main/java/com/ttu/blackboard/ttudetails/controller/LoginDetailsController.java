@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequestMapping("/login")
@@ -51,6 +52,10 @@ public class LoginDetailsController {
 
         LoginDetails savedDetails = loginDetailsService.saveUser(loginDetails);
 
+        if ("ADVISOR".equalsIgnoreCase(savedDetails.getRole())) {
+            loginDetailsService.createAdvisor(savedDetails);
+        }
+
         return new ResponseEntity<>(savedDetails, HttpStatus.CREATED);
     }
 
@@ -89,5 +94,19 @@ public class LoginDetailsController {
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         loginDetailsService.deleteUser(id);
         return ResponseEntity.noContent().build();
+    }
+
+
+
+    @GetMapping("/validate")
+    public ResponseEntity<?> validateUser(@RequestParam String email, @RequestParam String password) {
+        LoginDetails user = loginDetailsService.validateUser(email.toLowerCase(Locale.ROOT), password);
+        if (user != null) {
+            // Remove sensitive data like the password
+            user.setPassword(null);
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.status(401).body("Invalid email or password.");
+        }
     }
 }
